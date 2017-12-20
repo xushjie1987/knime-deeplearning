@@ -4,12 +4,19 @@ import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import org.knime.dl.core.data.DLBuffer;
 import org.knime.dl.core.data.DLReadableBuffer;
 import org.knime.dl.core.data.DLWritableBuffer;
 
+/**
+ * Abstract implementation of a ByteBufferBackedBuffer.
+ * This class and all extending classes are not thread-safe because the underlying {@link ByteBuffer}
+ * is not thread-safe.
+ * 
+ * @author Adrian Nembach, KNIME GmbH, Konstanz, Germany
+ *
+ */
 abstract class DLAbstractBBBBuffer implements DLBuffer, DLReadableBuffer, DLWritableBuffer {
 	
 	protected static final int BYTE_SIZE = 1;
@@ -38,10 +45,12 @@ abstract class DLAbstractBBBBuffer implements DLBuffer, DLReadableBuffer, DLWrit
 		if (read && !m_readMode) {
 			// prepare read by flipping buffer and setting position to m_readHead
 			m_storage.flip().position(m_readHead);
-		} else if (m_readMode) {
+			m_readMode = true;
+		} else if (!read && m_readMode) {
 			// write mode
-			// prepare write by clearing buffer and setting postion to m_writeHead
+			// prepare write by clearing buffer and setting position to m_writeHead
 			m_storage.clear().position(m_writeHead);
+			m_readMode = false;
 		}
 	}
 	
@@ -53,40 +62,9 @@ abstract class DLAbstractBBBBuffer implements DLBuffer, DLReadableBuffer, DLWrit
 		m_readHead += elements;
 	}
 	
-	protected void setReadHead(int position) {
-		if (position > m_writeHead) {
-			throw new IllegalArgumentException("The read head must be smaller or equal to the write head.");
-		}
-		m_readHead = position;
-	}
 	
 	// Internal putter
 	
-	protected void putByteInternal(byte value) {
-		prepareBufferFor(false);
-		m_storage.put(value);
-		incrementWriteHead(BYTE_SIZE);
-	}
-	
-	protected void putByteInternal(byte[] values) {
-		prepareBufferFor(false);
-		m_storage.put(values);
-		incrementWriteHead(values.length * BYTE_SIZE);
-	}
-	
-	protected void putShortInternal(short value) {
-		prepareBufferFor(false);
-		m_storage.putShort(value);
-		incrementWriteHead(SHORT_SIZE);
-	}
-	
-	protected void putShortInternal(short[] values) {
-		prepareBufferFor(false);
-		for (short val : values) {
-			m_storage.putShort(val);
-		}
-		incrementWriteHead(values.length * SHORT_SIZE);
-	}
 	
 	protected void putIntInternal(int value) {
 		prepareBufferFor(false);
@@ -146,18 +124,6 @@ abstract class DLAbstractBBBBuffer implements DLBuffer, DLReadableBuffer, DLWrit
 	
 	// internal getter
 	
-	protected byte getByteInternal() {
-		prepareBufferFor(true);
-		incrementReadHead(BYTE_SIZE);
-		return m_storage.get();
-	}
-	
-	protected short getShortInternal() {
-		prepareBufferFor(true);
-		incrementReadHead(SHORT_SIZE);
-		return m_storage.getShort();
-	}
-	
 	protected int getIntInternal() {
 		prepareBufferFor(true);
 		incrementReadHead(INT_SIZE);
@@ -196,7 +162,7 @@ abstract class DLAbstractBBBBuffer implements DLBuffer, DLReadableBuffer, DLWrit
 
 	@Override
 	public void setSize(long size) throws BufferOverflowException, BufferUnderflowException {
-		// TODO will be removed as it potentially breaks the buffer
+		throw new UnsupportedOperationException();
 
 	}
 	
@@ -217,7 +183,8 @@ abstract class DLAbstractBBBBuffer implements DLBuffer, DLReadableBuffer, DLWrit
 
 	@Override
 	public long size() {
-		return m_writeHead;
+		// the writeHead is measured in bytes
+		return m_writeHead / m_elementSize;
 	}
 
 	@Override

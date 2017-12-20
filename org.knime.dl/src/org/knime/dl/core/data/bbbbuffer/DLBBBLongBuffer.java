@@ -3,9 +3,16 @@ package org.knime.dl.core.data.bbbbuffer;
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 
+import org.knime.dl.core.data.DLDefaultLongBuffer;
 import org.knime.dl.core.data.DLReadableLongBuffer;
 import org.knime.dl.core.data.DLWritableLongBuffer;
 
+/**
+ * ByteBuffer backed alternative to {@link DLDefaultLongBuffer}.
+ * This class is not thread-safe.
+ * @author Adrian Nembach, KNIME GmbH, Konstanz, Germany
+ *
+ */
 public class DLBBBLongBuffer extends DLAbstractBBBBuffer implements DLReadableLongBuffer, DLWritableLongBuffer {
 
 	protected DLBBBLongBuffer(int capacity) {

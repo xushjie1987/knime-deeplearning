@@ -3,9 +3,17 @@ package org.knime.dl.core.data.bbbbuffer;
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 
+import org.knime.dl.core.data.DLDefaultIntBuffer;
 import org.knime.dl.core.data.DLReadableIntBuffer;
 import org.knime.dl.core.data.DLWritableIntBuffer;
 
+/**
+ * ByteBuffer backed alternative to {@link DLDefaultIntBuffer}.
+ * This class is not thread-safe.
+ * 
+ * @author Adrian Nembach, KNIME GmbH, Konstanz, Germany
+ *
+ */
 public class DLBBBIntBuffer extends DLAbstractBBBBuffer implements DLReadableIntBuffer, DLWritableIntBuffer {
 
 	protected DLBBBIntBuffer(int capacity) {
@@ -87,9 +95,7 @@ public class DLBBBIntBuffer extends DLAbstractBBBBuffer implements DLReadableInt
 
 	@Override
 	public void putAll(int[] values) throws BufferOverflowException {
-		for (int val : values) {
-			putIntInternal(val);
-		}
+		putIntInternal(values);
 	}
 
 	@Override

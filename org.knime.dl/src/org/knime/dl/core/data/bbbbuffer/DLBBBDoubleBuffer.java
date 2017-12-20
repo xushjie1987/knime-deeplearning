@@ -3,9 +3,17 @@ package org.knime.dl.core.data.bbbbuffer;
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 
+import org.knime.dl.core.data.DLDefaultDoubleBuffer;
 import org.knime.dl.core.data.DLReadableDoubleBuffer;
 import org.knime.dl.core.data.DLWritableDoubleBuffer;
 
+/**
+ * ByteBuffer backed alternative to {@link DLDefaultDoubleBuffer}.
+ * This class is not thread-safe.
+ * 
+ * @author Adrian Nembach, KNIME GmbH, Konstanz, Germany
+ *
+ */
 public class DLBBBDoubleBuffer extends DLAbstractBBBBuffer implements DLReadableDoubleBuffer, DLWritableDoubleBuffer {
 
 	protected DLBBBDoubleBuffer(int capacity) {
