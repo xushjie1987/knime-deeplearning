@@ -16,8 +16,8 @@ import org.knime.dl.core.data.DLWritableDoubleBuffer;
  */
 public class DLBBBDoubleBuffer extends DLAbstractBBBBuffer implements DLReadableDoubleBuffer, DLWritableDoubleBuffer {
 
-	protected DLBBBDoubleBuffer(int capacity) {
-		super(capacity, DOUBLE_SIZE);
+	protected DLBBBDoubleBuffer(final int capacity, final boolean allocateDirect) {
+		super(capacity, DOUBLE_SIZE, allocateDirect);
 	}
 
 	@Override

@@ -16,8 +16,8 @@ import org.knime.dl.core.data.DLWritableIntBuffer;
  */
 public class DLBBBIntBuffer extends DLAbstractBBBBuffer implements DLReadableIntBuffer, DLWritableIntBuffer {
 
-	protected DLBBBIntBuffer(int capacity) {
-		super(capacity, INT_SIZE);
+	protected DLBBBIntBuffer(final int capacity, final boolean allocateDirect) {
+		super(capacity, INT_SIZE, allocateDirect);
 	}
 
 	@Override

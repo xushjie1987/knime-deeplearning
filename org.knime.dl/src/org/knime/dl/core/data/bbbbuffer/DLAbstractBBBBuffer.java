@@ -34,9 +34,12 @@ abstract class DLAbstractBBBBuffer implements DLBuffer, DLReadableBuffer, DLWrit
 	private int m_writeHead = 0;
 	private int m_readHead = 0;
 	
-	protected DLAbstractBBBBuffer(int capacity, int elementSize) {
-		// TODO Once everything else works, check if allocateDirect gives better performance
-		m_storage = ByteBuffer.allocate(capacity * elementSize);
+	protected DLAbstractBBBBuffer(final int capacity, final int elementSize, final boolean allocateDirect) {
+		if (allocateDirect) {
+			m_storage = ByteBuffer.allocateDirect(capacity * elementSize);
+		} else {
+			m_storage = ByteBuffer.allocate(capacity * elementSize);
+		}
 		m_elementSize = elementSize;
 		
 	}

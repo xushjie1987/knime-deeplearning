@@ -16,8 +16,8 @@ import org.knime.dl.core.data.DLWritableFloatBuffer;
  */
 public class DLBBBFloatBuffer extends DLAbstractBBBBuffer implements DLReadableFloatBuffer, DLWritableFloatBuffer {
 
-	protected DLBBBFloatBuffer(int capacity) {
-		super(capacity, FLOAT_SIZE);
+	protected DLBBBFloatBuffer(final int capacity, final boolean allocateDirect) {
+		super(capacity, FLOAT_SIZE, allocateDirect);
 	}
 
 	@Override

@@ -15,8 +15,8 @@ import org.knime.dl.core.data.DLWritableLongBuffer;
  */
 public class DLBBBLongBuffer extends DLAbstractBBBBuffer implements DLReadableLongBuffer, DLWritableLongBuffer {
 
-	protected DLBBBLongBuffer(int capacity) {
-		super(capacity, LONG_SIZE);
+	protected DLBBBLongBuffer(final int capacity, final boolean allocateDirect) {
+		super(capacity, LONG_SIZE, allocateDirect);
 	}
 
 	@Override

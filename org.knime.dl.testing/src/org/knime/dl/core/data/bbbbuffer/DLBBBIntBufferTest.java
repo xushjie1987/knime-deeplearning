@@ -13,7 +13,7 @@ public class DLBBBIntBufferTest {
 	@Test
 	public void testPut() throws Exception {
 
-		DLBBBIntBuffer buffer = new DLBBBIntBuffer(10);
+		DLBBBIntBuffer buffer = new DLBBBIntBuffer(10, false);
 		// test put boolean
 		buffer.put(true);
 		assertEquals(1.0, buffer.readNextDouble(), TestUtil.EPSILON);
@@ -35,7 +35,7 @@ public class DLBBBIntBufferTest {
 	public void testPutAll() throws Exception {
 		Random rand = new Random();
 		int buffSize = 10;
-		DLBBBIntBuffer buffer = new DLBBBIntBuffer(buffSize);
+		DLBBBIntBuffer buffer = new DLBBBIntBuffer(buffSize, false);
 		// test boolean
 		boolean[] expectedBooleans = TestUtil.createBooleanArray(rand, buffSize);
 		buffer.putAll(expectedBooleans);
@@ -62,7 +62,7 @@ public class DLBBBIntBufferTest {
 	@Test
 	public void testToArray() throws Exception {
 		int buffSize = 10;
-		DLBBBIntBuffer buffer = new DLBBBIntBuffer(buffSize);
+		DLBBBIntBuffer buffer = new DLBBBIntBuffer(buffSize, false);
 		int[] expectedInts = TestUtil.createIntArray(new Random(), buffSize);
 		buffer.putAll(expectedInts);
 		// move read position

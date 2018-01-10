@@ -12,7 +12,7 @@ public class DLBBBLongBufferTest {
 	@Test
 	public void testPut() throws Exception {
 
-		DLBBBLongBuffer buffer = new DLBBBLongBuffer(10);
+		DLBBBLongBuffer buffer = new DLBBBLongBuffer(10, false);
 		// test put boolean
 		buffer.put(true);
 		assertEquals(1L, buffer.readNextLong());
@@ -35,7 +35,7 @@ public class DLBBBLongBufferTest {
 	public void testPutAll() throws Exception {
 		Random rand = new Random();
 		int buffSize = 10;
-		DLBBBLongBuffer buffer = new DLBBBLongBuffer(buffSize);
+		DLBBBLongBuffer buffer = new DLBBBLongBuffer(buffSize, false);
 		// test boolean
 		boolean[] expectedBooleans = TestUtil.createBooleanArray(rand, buffSize);
 		buffer.putAll(expectedBooleans);
@@ -67,7 +67,7 @@ public class DLBBBLongBufferTest {
 	@Test
 	public void testToArray() throws Exception {
 		int buffSize = 10;
-		DLBBBLongBuffer buffer = new DLBBBLongBuffer(buffSize);
+		DLBBBLongBuffer buffer = new DLBBBLongBuffer(buffSize, false);
 		long[] expectedLongs = TestUtil.createLongArray(new Random(), buffSize);
 		buffer.putAll(expectedLongs);
 		// move read position
