@@ -46,6 +46,7 @@
  */
 package org.knime.dl.core;
 
+import java.util.List;
 import java.util.Map;
 
 import org.knime.dl.core.data.DLWritableBuffer;
@@ -56,8 +57,8 @@ import org.knime.dl.core.data.DLWritableBuffer;
  */
 public interface DLNetworkInputProvider extends AutoCloseable {
 
-	long getNumBatches();
+	long getNumChunks();
 
-	Map<DLTensorId, DLTensor<? extends DLWritableBuffer>> get(long batchIndex)
+	Map<DLTensorId, List<DLTensor<? extends DLWritableBuffer>>> get(long chunkIndex)
 			throws DLCanceledExecutionException, DLInvalidNetworkInputException;
 }
